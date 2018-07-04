@@ -26,8 +26,7 @@ Simulator Commands
 
 ## Codes
 
-::
-
+```
     drone-controller/
           +---- images/              scenario images
           +---- config/              configuration files for controller and vehicle
@@ -37,7 +36,10 @@ Simulator Commands
           +---- tools/               tools
           +---- CMakeLists.txt
           +---- README.rst
+```
 
 ## Solution: Scenario 06_SensorNoise
 
-![equation](http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D)  
+![equation](http://latex.codecogs.com/gif.latex?\frac{1}{2})  
+
+
