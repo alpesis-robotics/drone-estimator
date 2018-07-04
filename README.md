@@ -161,7 +161,8 @@ A green box is shown at the chart of estimated attitude error:
 
 ## Solution: Scenarios 08_PredictState & 09_PredictCovariance
 
-In general, the prediction phase in the Extended Kalman Filter is defined as:
+In general, there are two parts in the prediction phase of the Extended Kalman Filter: state estimated and
+covariance that measures the errors. The presentation could be written like:
 
 ![equation](http://latex.codecogs.com/gif.latex?X_t=F(X_{t-1},U_t)+W_t)
 
@@ -176,13 +177,14 @@ Where
 - G(X): the Jocobian function;
 - Q_t: the covariance noise at time t.
 
-At the stage of this project, there are three steps separately:
+At the stage of this project, there are three steps to finish the prediction phase in the ``QuadEstimatorEKF.cpp``:
 
 - ``Predict()``: the main prediction function, returning ``ekfState`` and ``ekfCov``;
 - ``PredictState()``: the calculation of ``ekfState``;
 - ``GetRbgPrime()``: the calculation of the partial derivative of the Rbg matrix for ``ekfCov``.
 
-Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied are as below:
+Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied are separated by position(x, y, z)
+and velocity(x, y, z) as following:
 
 ![equation](http://latex.codecogs.com/gif.latex?P[x,y,z]_t=P[x,y,z]_{t-1}+V[x,y,z]_{t-1}%5CDelta%20t)
 
@@ -206,10 +208,16 @@ Step 1. Calculating the partial derivative of the rotation matrix from body fram
 
 Step 2. Getting the Jacobian matrix by the partial derivative of the rotation matrix, acceleration and delta t.
 
+![jacobian](./images/jacobian.gif)
+
+Step 3. Finishing the covariance of prediction.
+
+![equation](http://latex.codecogs.com/gif.latex?P_t=GP_{t-1}G^T+Q)
+
+Where ``G`` is the Jacobian function calculated at step 2.
 
 
-
-Codes implemented in ``PredictState()``:
+Come back to the project, codes implemented in ``PredictState()``:
 
 ```
    ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
