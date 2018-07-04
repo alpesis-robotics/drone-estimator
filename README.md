@@ -184,9 +184,9 @@ At the stage of this project, there are three steps separately:
 
 Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied are as below:
 
-![equation](http://latex.codecogs.com/gif.latex?P(x, y, z)_t=P(x, y, z)_{t-1}+V(x, y, z)_{t-1}\dt)
+![equation](http://latex.codecogs.com/gif.latex?P(x,y,z)_t=P(x,y,z)_{t-1}+V(x,y,z)_{t-1}\dt)
 
-![equation](http://latex.codecogs.com/gif.latex?V(x, y)_t=V(x, y)_{t-1}+A(x, y)_{t-1}\dt)
+![equation](http://latex.codecogs.com/gif.latex?V(x,y)_t=V(x, y)_{t-1}+A(x, y)_{t-1}\dt)
 
 ![equation](http://latex.codecogs.com/gif.latex?V(z)_t=V(z)_{t-1}+A(z)_{t-1}\dt-g\dt)
 
