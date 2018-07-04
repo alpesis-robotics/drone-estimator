@@ -205,15 +205,15 @@ Where
 
 Concerning on the ``ekfCov`` in the ``Predict()`` and ``GetRbgPrime``, the formulas implemented correspondingly as:
 
-Step 1. Calculating the partial derivative of the rotation matrix from body frame to global frame by the roll, pitch and yaw values.
+- Step 1. Calculating the partial derivative of the rotation matrix from body frame to global frame by the roll, pitch and yaw values.
 
 ![RbgPrime](./images/rbg_prime.gif)
 
-Step 2. Getting the Jacobian matrix by the partial derivative of the rotation matrix, acceleration and delta t.
+- Step 2. Getting the Jacobian matrix by the partial derivative of the rotation matrix, acceleration and delta t.
 
 ![jacobian](./images/jacobian.gif)
 
-Step 3. Finishing the covariance of prediction.
+- Step 3. Finishing the covariance of prediction.
 
 ![equation](http://latex.codecogs.com/gif.latex?P_t=GP_{t-1}G^T+Q)
 
