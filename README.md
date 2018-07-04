@@ -202,7 +202,7 @@ Concerning on the ``ekfCov`` in the ``Predict()`` and ``GetRbgPrime``, the formu
 
 Step 1. Calculating the partial derivative of the rotation matrix from body frame to global frame by the roll, pitch and yaw values.
 
-![equation](http://latex.codecogs.com/gif.latex?R_{bg}^{'}=\begin{bmatrix}-cos\theta\sin\psi&-sin\phi\sin\theta\sin\psi-\cos\phi\cos\psi&-\cos\phi\sin\theta\sin\psi+\sin\phi\cos\psi\\\cos\theta\cos\psi&\sin\phi\sin\theta\cos\psi-\cos\phi\sin\psi&\cos\phi\sin\theta\cos\psi+\sin\phi\sin\psi\\0&0&0\end{bmatrix}]
+![equation](http://latex.codecogs.com/gif.latex?R_{bg}^{'}=%5Cbegin{bmatrix}-%5Ccos%5Ctheta%5Csin%5Cpsi&-%5Csin%5Cphi%5Csin%5Ctheta%5Csin%5Cpsi-%5Ccos%5Cphi%5Ccos%5Cpsi&-%5Ccos%5Cphi%5Csin%5Ctheta%5Csin%5Cpsi+%5Csin%5Cphi%5Ccos%5Cpsi%5C%5C%5Ccos%5Ctheta%5Ccos%5Cpsi&%5Csin%5Cphi%5Csin%5Ctheta%5Ccos%5Cpsi-%5Ccos%5Cphi%5Csin%5Cpsi&%5Ccos%5Cphi%5Csin%5Ctheta%5Ccos%5Cpsi+%5Csin%5Cphi%5Csin%5Cpsi%5C%5C0&0&0%5Cend{bmatrix}]
 
 Step 2. Getting the Jacobian matrix by the partial derivative of the rotation matrix, acceleration and delta t.
 
