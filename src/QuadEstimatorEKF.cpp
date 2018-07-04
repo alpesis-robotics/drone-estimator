@@ -173,12 +173,12 @@ VectorXf QuadEstimatorEKF::PredictState(VectorXf curState, float dt, V3F accel, 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
   V3F curAccel = attitude.Rotate_BtoI(accel);
 
-  predictedState(0) = curState(0) + dt * curState(3);
-  predictedState(1) = curState(1) + dt * curState(4);
-  predictedState(2) = curState(2) + dt * curState(5);
-  predictedState(3) = curState(3) + dt * curAccel.x;
-  predictedState(4) = curState(4) + dt * curAccel.y;
-  predictedState(5) = curState(5) + dt * curAccel.z - dt * CONST_GRAVITY;
+  predictedState(0) = curState(0) + curState(3) * dt;
+  predictedState(1) = curState(1) + curState(4) * dt;
+  predictedState(2) = curState(2) + curState(5) * dt;
+  predictedState(3) = curState(3) + curAccel.x * dt;
+  predictedState(4) = curState(4) + curAccel.y * dt;
+  predictedState(5) = curState(5) + curAccel.z * dt - CONST_GRAVITY * dt;
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
   return predictedState;

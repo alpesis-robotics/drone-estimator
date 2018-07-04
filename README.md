@@ -158,3 +158,120 @@ PASS: ABS(Quad.Est.E.MaxEuler) was less than 0.100000 for at least 3.000000 seco
 A green box is shown at the chart of estimated attitude error:
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.png)
+
+## Solution: Scenarios 08_PredictState & 09_PredictCovariance
+
+In general, the prediction phase in the Extended Kalman Filter is defined as:
+
+![equation](http://latex.codecogs.com/gif.latex?X_t=F(X_{t-1}, U_t) + W_t)
+
+![equation](http://latex.codecogs.com/gif.latex?P_t=G(P_{t-1})+Q_t)
+
+Where
+
+- X_t: the state at time t;
+- F(X, U): the state transition function;
+- W_t: the state noise at time t;
+- P_t: the covariance at time t;
+- G(X): the Jocobian function;
+- Q_t: the covariance noise at time t.
+
+At the stage of this project, there are three steps separately:
+
+- ``Predict()``: the main prediction function, returning ``ekfState`` and ``ekfCov``;
+- ``PredictState()``: the calculation of ``ekfState``;
+- ``GetRbgPrime()``: the calculation of the partial derivative of the Rbg matrix for ``ekfCov``.
+
+Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied are as below:
+
+![equation](http://latex.codecogs.com/gif.latex?P(x, y, z)_t=P(x, y, z)_{t-1}+V(x, y, z)_{t-1}\dt)
+
+![equation](http://latex.codecogs.com/gif.latex?V(x, y)_t=V(x, y)_{t-1}+A(x, y)_{t-1}\dt)
+
+![equation](http://latex.codecogs.com/gif.latex?V(z)_t=V(z)_{t-1}+A(z)_{t-1}\dt-g\dt)
+
+Where
+
+- P(x, y, z): the position on x/y/z axis;
+- V(x, y, z): the velocity on x/y/z axis;
+- A(x, y, z): the acceleration on x/y/z axis;
+- g: the gravity.
+
+
+Concerning on the ``ekfCov`` in the ``Predict()`` and ``GetRbgPrime``, the formulas implemented correspondingly as:
+
+Step 1. Calculating the partial derivative of the rotation matrix from body frame to global frame by the roll, pitch and yaw values.
+
+![equation](http://latex.codecogs.com/gif.latex?R_{bg}^{'}=\begin{bmatrix}-cos\theta\sin\psi&-sin\phi\sin\theta\sin\psi-\cos\phi\cos\psi&-\cos\phi\sin\theta\sin\psi+\sin\phi\cos\psi\\\cos\theta\cos\psi&\sin\phi\sin\theta\cos\psi-\cos\phi\sin\psi&\cos\phi\sin\theta\cos\psi+\sin\phi\sin\psi\\0&0&0\end{bmatrix}]
+
+Step 2. Getting the Jacobian matrix by the partial derivative of the rotation matrix, acceleration and delta t.
+
+
+
+
+Codes implemented in ``PredictState()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   V3F curAccel = attitude.Rotate_BtoI(accel);
+
+   predictedState(0) = curState(0) + curState(3) * dt;
+   predictedState(1) = curState(1) + curState(4) * dt;
+   predictedState(2) = curState(2) + curState(5) * dt;
+   predictedState(3) = curState(3) + curAccel.x * dt;
+   predictedState(4) = curState(4) + curAccel.y * dt;
+   predictedState(5) = curState(5) + curAccel.z * dt - CONST_GRAVITY * dt;
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+
+Running the result, the true (y, vy, z, vz) and the estimated (y, vy, z, vz) would 
+be apporximately overlapped. 
+
+![08_PredictState](./images/08_PredictState.png)
+
+Codes implemented in ``GetRbgPrime()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   float sinPhi = sin(roll);
+   float cosPhi = cos(roll);
+   float sinTheta = sin(pitch);
+   float cosTheta = cos(pitch);
+   float sinPsi = sin(yaw);
+   float cosPsi = cos(yaw);
+
+   RbgPrime(0, 0) = - cosTheta * sinPsi;
+   RbgPrime(0, 1) = - sinPhi * sinTheta * sinPsi - cosPhi * cosPsi;
+   RbgPrime(0, 2) = - cosPhi * sinTheta * sinPsi + sinPhi * cosPsi;
+   RbgPrime(1, 0) = cosTheta * cosPsi;
+   RbgPrime(1, 1) = sinPhi * sinTheta * cosPsi - cosPhi * cosPsi;
+   RbgPrime(1, 2) = cosPhi * sinTheta * cosPsi + sinPhi * sinPsi;
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+Codes implemented in ``Predict()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   gPrime(0, 3) = dt;
+   gPrime(1, 4) = dt;
+   gPrime(2, 5) = dt;
+   gPrime(3, 6) = (RbgPrime(0) * accel).sum() * dt;
+   gPrime(4, 6) = (RbgPrime(1) * accel).sum() * dt;
+   gPrime(5, 6) = (RbgPrime(2) * accel).sum() * dt;
+
+   ekfCov = gPrime * ekfCov * gPrime.transpose() + Q;
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+Fine tunning the parameters in ``config/QuadEstimatorEKF.txt``:
+
+```
+QPosXYStd = .02
+QVelXYStd = .18
+```
+
+![09_PredictCovariance](./images/09_PredictCovariance.png)
+
+
