@@ -1,13 +1,8 @@
-##############################################################################
-Drone Estimator
-##############################################################################
+# Drone Estimator
 
-==============================================================================
-Getting Started
-==============================================================================
+## Getting Started
 
-::
-
+```
     # install Qt5
     $ export Qt5Core_DIR=/usr/local/opt/qt/lib/cmake/Qt5Core
     $ export Qt5Network_DIR=/usr/local/opt/qt/lib/cmake/Qt5Network
@@ -17,6 +12,7 @@ Getting Started
     $ cmake ..
     $ make
     $ ./CPPSim
+```
 
 Simulator Commands
 
@@ -28,9 +24,7 @@ Simulator Commands
 - ``R``: reset simulation;
 - ``Space``: pause simulation.
 
-==============================================================================
-Codes
-==============================================================================
+## Codes
 
 ::
 
@@ -44,8 +38,6 @@ Codes
           +---- CMakeLists.txt
           +---- README.rst
 
-==============================================================================
-Solution: Scenario 06_SensorNoise
-==============================================================================
+## Solution: Scenario 06_SensorNoise
 
-<img src="http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D"> 
+![equation](http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D)  
