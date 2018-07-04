@@ -186,9 +186,9 @@ Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied ar
 
 ![equation](http://latex.codecogs.com/gif.latex?P[x,y,z]_t=P[x,y,z]_{t-1}+V[x,y,z]_{t-1}%5CDelta%20t)
 
-![equation](http://latex.codecogs.com/gif.latex?V[x,y]_t=V[x,y]_{t-1}+A[x,y]_{t-1}dt)
+![equation](http://latex.codecogs.com/gif.latex?V[x,y]_t=V[x,y]_{t-1}+A[x,y]_{t-1}%5CDelta%20t)
 
-![equation](http://latex.codecogs.com/gif.latex?V[z]_t=V[z]_{t-1}+A[z]_{t-1}\dt-gdt)
+![equation](http://latex.codecogs.com/gif.latex?V[z]_t=V[z]_{t-1}+A[z]_{t-1}%5CDelta%20t-g%5CDelta%20t)
 
 Where
 
