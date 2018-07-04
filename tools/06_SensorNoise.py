@@ -15,8 +15,8 @@ class SensorNoise(object):
 if __name__=='__main__':
     gpsfile = "../config/log/Graph1.txt"
     gps = SensorNoise(gpsfile)
-    print("Quad.GPS.X std: ", gps.std())
+    print "Quad.GPS.X std: ", gps.std()
 
     imufile = "../config/log/Graph2.txt"
     imu = SensorNoise(imufile)
-    print("Quad.IMU.AX std: ", imu.std())
+    print "Quad.IMU.AX std: ", imu.std()

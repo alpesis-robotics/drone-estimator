@@ -71,19 +71,22 @@ class SensorNoise(object):
 if __name__=='__main__':
     gpsfile = "../config/log/Graph1.txt"
     gps = SensorNoise(gpsfile)
-    print("Quad.GPS.X std: ", gps.std())
+    print "Quad.GPS.X std: ", gps.std()
 
     imufile = "../config/log/Graph2.txt"
     imu = SensorNoise(imufile)
-    print("Quad.IMU.AX std: ", imu.std())
+    print "Quad.IMU.AX std: ", imu.std()
 ```
 
 Run the result:
 
 ```
+# the results will be updated instantly, corresponding to the data grows.
 $ python 06_SensorNoise.py
-('Quad.GPS.X std: ', 0.65374197413536783)
-('Quad.IMU.AX std: ', 0.51030457263335205)
+Quad.GPS.X std:  0.653741974135
+Quad.IMU.AX std:  0.510304572633
 ```
 
-The figures turn green as shown below.
+The figures turn green as shown below:
+
+![06_SensorNoise](./images/06_SensorNoise.png)
