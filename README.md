@@ -163,7 +163,7 @@ A green box is shown at the chart of estimated attitude error:
 
 In general, the prediction phase in the Extended Kalman Filter is defined as:
 
-![equation](http://latex.codecogs.com/gif.latex?\X_t=\F(X_{t-1}, U_t) + W_t)
+![equation](http://latex.codecogs.com/gif.latex?X_t=\F(X_{t-1},U_t)+W_t)
 
 ![equation](http://latex.codecogs.com/gif.latex?P_t=G(P_{t-1})+Q_t)
 
