@@ -98,6 +98,15 @@ The figures turn green as shown below:
 
 ## Solution: Scenario 07_AttitudeEstimation
 
+With the reference of the paper [Attitude Estimation Control of Autonomous Aerial Vehicles], the
+attitude kinematics using the minimal Euler angles parametrization is defined as following:
+
+![equation](http://latex.codecogs.com/gif.latex?\dot\phi=gyro.x+\sin(\phi)\tan(\theta)*gyro.y+\cos(phi)\tan(\theta)*gyro.z)
+
+![equation](http://latex.codecogs.com/gif.latex?\dot\theta=\cos(\phi)*gyro.y-\sin(\phi)*gyro.z)
+
+![equation](http://latex.codecogs.com/gif.latex?\dot\psi=\frac{\sin(\phi)}{\cos(\theta)}*gyro.y+\frac{\cos(\phi)}{\cos(\theta)}*gyro.z)
+
 Notation reference:
 
 - x axis: roll, phi
