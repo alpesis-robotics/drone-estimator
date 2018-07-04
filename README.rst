@@ -44,10 +44,8 @@ Codes
           +---- CMakeLists.txt
           +---- README.rst
 
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
-
 ==============================================================================
 Solution: Scenario 06_SensorNoise
 ==============================================================================
 
-
+``$ y=\sum_{i=1}^n g(x_i) $``
