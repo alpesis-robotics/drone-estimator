@@ -83,8 +83,12 @@ Run the result:
 ```
 # the results will be updated instantly, corresponding to the data grows.
 $ python 06_SensorNoise.py
-Quad.GPS.X std:  0.653741974135
-Quad.IMU.AX std:  0.510304572633
+Quad.GPS.X std:  0.71384784768
+Quad.IMU.AX std:  0.511644801594
+
+$ ./CPPSim
+PASS: ABS(Quad.GPS.X-Quad.Pos.X) was less than MeasuredStdDev_GPSPosXY for 68% of the time
+PASS: ABS(Quad.IMU.AX-0.000000) was less than MeasuredStdDev_AccelXY for 70% of the time
 ```
 
 The figures turn green as shown below:
