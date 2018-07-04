@@ -48,4 +48,4 @@ Codes
 Solution: Scenario 06_SensorNoise
 ==============================================================================
 
-![equation](http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D)  
+<img src="http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D"> 
