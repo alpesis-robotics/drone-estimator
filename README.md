@@ -98,14 +98,14 @@ The figures turn green as shown below:
 
 ## Solution: Scenario 07_AttitudeEstimation
 
-With the reference of the paper [Attitude Estimation Control of Autonomous Aerial Vehicles], the
-attitude kinematics using the minimal Euler angles parametrization is defined as following:
+With the reference of the paper [Attitude Estimation Control of Autonomous Aerial Vehicles](https://tel.archives-ouvertes.fr/tel-01201539/document), 
+the attitude kinematics using the minimal Euler angles parametrization is defined as following:
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\phi(t)=\omega_x+\sin(\phi)\tan(\theta)*\omega_y+\cos(\phi)\tan(\theta)*\omega_z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\phi(t)=\omega_x+\sin(\phi)\tan(\theta)\omega_y+\cos(\phi)\tan(\theta)\omega_z)
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\theta(t)=\cos(\phi)*\omega_y-\sin(\phi)*\omega_z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\theta(t)=\cos(\phi)\omega_y-\sin(\phi)\omega_z)
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\psi(t)=\frac{\sin(\phi)}{\cos(\theta)}*\omega_y+\frac{\cos(\phi)}{\cos(\theta)}*\omega_z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\psi(t)=\frac{\sin(\phi)}{\cos(\theta)}\omega_y+\frac{\cos(\phi)}{\cos(\theta)}\omega_z)
 
 Notation reference:
 
