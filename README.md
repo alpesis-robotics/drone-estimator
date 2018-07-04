@@ -47,7 +47,43 @@ sigma bound on the y-axis capturing the value of approximately 68% of the respec
 The formula of standard deviation is as following:
 
 
-![equation](http://latex.codecogs.com/gif.latex?\mu=\frac{1}{N}{\sum_{i=0}^N}x_i)
+![equation](http://latex.codecogs.com/gif.latex?\mu=\frac{1}{N}{\sum_{i=1}^N}x_i)
 
-  
+![equation](http://latex.codecogs.com/gif.latex?\sigma=\sqrt{\frac{1}{N}\sum_{i=1}^N(x_i-\mu)^2})  
 
+With the Numpy API ``numpy.std(data)``, the implemention is located at ``tools/06_SensorNoise``:
+
+```
+import numpy as np
+
+class SensorNoise(object):
+
+    def __init__(self, datafile):
+        self.data = np.loadtxt(datafile, delimiter=',', skiprows=1)
+
+    def mean(self):
+        return np.mean(self.data[:, 1])
+
+    def std(self):
+        return np.std(self.data[:, 1])
+
+
+if __name__=='__main__':
+    gpsfile = "../config/log/Graph1.txt"
+    gps = SensorNoise(gpsfile)
+    print("Quad.GPS.X std: ", gps.std())
+
+    imufile = "../config/log/Graph2.txt"
+    imu = SensorNoise(imufile)
+    print("Quad.IMU.AX std: ", imu.std())
+```
+
+Run the result:
+
+```
+$ python 06_SensorNoise.py
+('Quad.GPS.X std: ', 0.65374197413536783)
+('Quad.IMU.AX std: ', 0.51030457263335205)
+```
+
+The figures turn green as shown below.
