@@ -47,7 +47,7 @@ sigma bound on the y-axis capturing the value of approximately 68% of the respec
 The formula of standard deviation is as following:
 
 
-![equation](http://latex.codecogs.com/gif.latex?\mu=\frac{1}{N}{}\sum_{i=0}^N}x_i)
+![equation](http://latex.codecogs.com/gif.latex?\mu=\frac{1}{N}{\sum_{i=0}^N}x_i)
 
   
 
