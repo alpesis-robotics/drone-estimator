@@ -94,3 +94,58 @@ PASS: ABS(Quad.IMU.AX-0.000000) was less than MeasuredStdDev_AccelXY for 70% of 
 The figures turn green as shown below:
 
 ![06_SensorNoise](./images/06_SensorNoise.png)
+
+
+## Solution: Scenario 07_AttitudeEstimation
+
+Notation reference:
+
+- x axis: roll, phi
+- y axis: pitch, theta
+- z axis: yaw, psi
+
+Codes implemented in ``UpdateFromIMU()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   // SMALL ANGLE GYRO INTEGRATION:
+   // (replace the code below)
+   // make sure you comment it out when you add your own code -- otherwise e.g. you might integrate yaw twice
+
+   // ref: 1.4 Attitude kinematics and dynamics, Attitude Estimation Control of Autonomous Aerial Vehicles, P25
+   // url: https://tel.archives-ouvertes.fr/tel-01201539/document
+   V3F angleDot;
+   angleDot.x = gyro.x + sin(rollEst) * tan(pitchEst) * gyro.y + cos(rollEst) * tan(pitchEst) * gyro.z;
+   angleDot.y = cos(rollEst) * gyro.y - sin(rollEst) * gyro.z;
+   angleDot.z = sin(rollEst) * gyro.y / cos(pitchEst) + cos(rollEst) * gyro.z / cos(pitchEst);
+
+   float predictedPitch = pitchEst + dtIMU * angleDot.y;
+   float predictedRoll = rollEst + dtIMU * angleDot.x;
+   ekfState(6) = ekfState(6) + dtIMU * angleDot.z;       // yaw
+   // float predictedPitch = pitchEst + dtIMU * gyro.y;
+   // float predictedRoll = rollEst + dtIMU * gyro.x;
+   // ekfState(6) = ekfState(6) + dtIMU * gyro.z;        // yaw
+
+   // normalize yaw to -pi .. pi
+   if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
+   if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
+
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+Run the result:
+
+```
+$ make
+$ ./CPPSim
+Simulation #1 (../config/07_AttitudeEstimation.txt)
+Simulation #2 (../config/07_AttitudeEstimation.txt)
+PASS: ABS(Quad.Est.E.MaxEuler) was less than 0.100000 for at least 3.000000 seconds
+Simulation #3 (../config/07_AttitudeEstimation.txt)
+PASS: ABS(Quad.Est.E.MaxEuler) was less than 0.100000 for at least 3.000000 seconds
+...
+```
+
+A green box is shown at the chart of estimation attitude error:
+
+![07_AttitudeEstimation](./images/07_AttitudeEstimation.png)
