@@ -40,6 +40,14 @@ Simulator Commands
 
 ## Solution: Scenario 06_SensorNoise
 
-![equation](http://latex.codecogs.com/gif.latex?\frac{1}{2})  
+By calculating the standard deviation of ``Quad.GPS.X`` and ``Quad.IMU.AX`` data located at ``config/log/``,
+the charts in the scenario ``06_SensorNoise`` would be shown that the dashed lines turn green within +/- 1
+sigma bound on the y-axis capturing the value of approximately 68% of the respective measurements.
 
+The formula of standard deviation is as following:
+
+
+![equation](http://latex.codecogs.com/gif.latex?\mu=\frac{1}{N}{}\sum_{i=0}^N}x_i)
+
+  
 
