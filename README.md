@@ -183,6 +183,8 @@ At the stage of this project, there are three steps to finish the prediction pha
 - ``PredictState()``: the calculation of ``ekfState``;
 - ``GetRbgPrime()``: the calculation of the partial derivative of the Rbg matrix for ``ekfCov``.
 
+**ekfState**
+
 Regarding to the ``ekfState`` in the ``PredictState()``, the formulas applied are separated by position(x, y, z)
 and velocity(x, y, z) as following:
 
@@ -199,6 +201,7 @@ Where
 - A[x, y, z]: the acceleration on x/y/z axis;
 - g: the gravity.
 
+**ekfCov**
 
 Concerning on the ``ekfCov`` in the ``Predict()`` and ``GetRbgPrime``, the formulas implemented correspondingly as:
 
@@ -216,6 +219,7 @@ Step 3. Finishing the covariance of prediction.
 
 Where ``G`` is the Jacobian function calculated at step 2.
 
+**Implementation**
 
 Come back to the project, codes implemented in ``PredictState()``:
 
