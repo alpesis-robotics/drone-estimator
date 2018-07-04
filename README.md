@@ -101,11 +101,11 @@ The figures turn green as shown below:
 With the reference of the paper [Attitude Estimation Control of Autonomous Aerial Vehicles], the
 attitude kinematics using the minimal Euler angles parametrization is defined as following:
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\phi=gyro.x+\sin(\phi)\tan(\theta)*gyro.y+\cos(phi)\tan(\theta)*gyro.z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\phi(t)=\omega_x+\sin(\phi)\tan(\theta)*\omega_y+\cos(\phi)\tan(\theta)*\omega_z)
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\theta=\cos(\phi)*gyro.y-\sin(\phi)*gyro.z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\theta(t)=\cos(\phi)*\omega_y-\sin(\phi)*\omega_z)
 
-![equation](http://latex.codecogs.com/gif.latex?\dot\psi=\frac{\sin(\phi)}{\cos(\theta)}*gyro.y+\frac{\cos(\phi)}{\cos(\theta)}*gyro.z)
+![equation](http://latex.codecogs.com/gif.latex?\dot\psi(t)=\frac{\sin(\phi)}{\cos(\theta)}*\omega_y+\frac{\cos(\phi)}{\cos(\theta)}*\omega_z)
 
 Notation reference:
 
@@ -155,6 +155,6 @@ PASS: ABS(Quad.Est.E.MaxEuler) was less than 0.100000 for at least 3.000000 seco
 ...
 ```
 
-A green box is shown at the chart of estimation attitude error:
+A green box is shown at the chart of estimated attitude error:
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.png)
