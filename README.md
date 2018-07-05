@@ -392,9 +392,15 @@ The GPS update phase of EKF is as the same as the Magnetometer except the input 
 
 ### Implementation
 
-Choose the scenario 11_GPSUpdate, 
+**Ideal Estimator + Ideal IMU**
+
+Choose the scenario 11_GPSUpdate, the running scenario, using the ideal esitmator and ideal
+IMU, is illustrated as below. We could see the chart at the bottom right that position error
+and Z std are drifting away because of the incomplete GPS update function.
 
 ![11_GPSUpdate_ideal](./images/11_GPSUpdate_ideal.png)
+
+**Realistic Estimator + Ideal IMU**
 
 Updating ``Quad.UseIdealEstimator`` in ``config/11_GPSUpdate.txt`` from 1 to 0 to switch the
 Estimator from ideal to realistic.
@@ -406,13 +412,35 @@ Estimator from ideal to realistic.
 Quad.UseIdealEstimator = 0
 ```
 
+Differentiating from the ideal estimator using the ideal IMU, the shape of path keeps approximately
+the same but the significant deviations of global positions occurred if the realistic estimator using
+the ideal IMU, as the result shown at the below image. 
+
 ![11_GPSUpdate_realsitic](./images/11_GPSUpdate_realistic.png)
 
-Commented the IMU settings in ``config/11_GPSUpdate.txt``
+**Realistic Estimator + Realistic IMU**
+
+Commented the IMU settings in ``config/11_GPSUpdate.txt``:
+
+```
+# SimIMU.AccelStd = 0,0,0
+# SimIMU.GyroStd = 0,0,0
+```
+
+The path is completely incorrect. As the charts illustrated, the deviations between the true position y
+and velocity y and the estimated position y and estimated velocity vy are shown in the first graph. Meanwhile,
+the position error is significantly increased up to 30-40.
 
 ![11_GPSUpdate_realistic_imu](./images/11_GPSUpdate_realistic_imu.png)
 
-Tuning the parameter ```` in ````,
+Tuning the parameter ``QPosZStd`` in ``config/QuadEstimatorEKF.txt``:
+
+```
+QPosZStd = .05
+```
+
+If the standard deviation increases, the errors of the positions will increased corespondingly. The smaller
+the standard deviation is, the more approximate the expected results will meet.
 
 ![11_GPSUpdate_z_0.1](./images/11_GPSUpdate_z_0.1.png)
 
@@ -444,6 +472,7 @@ Simulation #2 (../config/11_GPSUpdate.txt)
 PASS: ABS(Quad.Est.E.Pos) was less than 1.000000 for at least 20.000000 seconds
 ```
 
-The chart shows
+With the update of the GPS measurement, the green box shows the result meets the criteria that
+the estimated position error is less than 1m for at least 20 seconds.
 
 ![11_GPSUpdate](./images/11_GPSUpdate.png)
