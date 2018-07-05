@@ -292,4 +292,90 @@ QVelXYStd = .18
 
 ![09_PredictCovariance](./images/09_PredictCovariance.png)
 
+## Solution: Scenario 10_MagUpdate
 
+The generic process of the update phase in Extended Kalman Filter is divided into two steps:
+
+- Stated updated: to update the state based on predicted state, Kalman gain, the measurement
+noise and the measurement prediction based on current state;
+- Covariance updated: to get the covariance by the Kalman gain, covariance function and the
+predicted current covariance.
+
+The formulas represneted as listed:
+
+![equation](http://latex.codecogs.com/gif.latex?X_t=X^{'}+K(Z_t-CX^{'})
+
+![equation](http://latex.codecogs.com/gif.latex?P_t=(I-KH)P^{'})
+
+![equation](http://latex.codecogs.com/gif.latex?K_t=\frac{P^{'}H}{HP^{'}H^T+R})
+
+Where
+
+- X_t: the updated state;
+- P_t: the updated covariance;
+- X': the predicted state;
+- P': the predicted covariance;
+- K: the Kalman gain;
+- Z_t: the measurement of state;
+- H: the Jacobian of observation function;
+- R: the measurement covariance;
+- C: the constant. 
+
+Regarding the project, the main update process is implemented in ``Predict()``, while the input
+procedure is the outputs of ``UpdateFromMag()`` that aims to solve the ``Z_t``, ``H``, ``R`` and
+``CX'``, in the function, ``z``, ``hPrime``, ``R_Mag`` and ``zFromX`` corespondingly. Here,
+
+- ``z``: the magYaw;
+- ``R_Mag``: the magnetomer measurement covariance;
+- ``zFromX``: the normalized predicted yaw in ekfState;
+- ``hPrime``: 
+
+![equation](http://latex.codecogs.com/gif.latex?h^{'}(x_t)=[0,0,0,0,0,0,1])
+
+## Implementation
+
+Fine tunning the parameter ``QYawStd`` in ``QuadEstimatorEKF.txt``, when the value is less than
+0.05, the white bound is too narrow; while larger than 0.05, it chases the trend of magnitude of
+the drift.
+
+``QYawStd`` in ``QuadEstimatorEKF.txt``:
+
+```
+QYawStd = .07
+```
+
+If QYawStd > 0.05 (e.g. 0.07), the drift is between the both white lines:
+
+![10_MagUpdate_tuned.png](./images/10_MagUpdate_tuned.png)
+
+If QYawStd < 0.05 (e.g. 0.02), the drift could not be covered by the white bound.
+
+![10_MagUpdate_tuned_0.02.png](./images/10_MagUpdate_tuned_0.02.png)
+
+
+Codes implemented in ``UpdateFromMag()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   hPrime(0, 6) = 1;
+
+   zFromX(0) = ekfState(6);
+   float diffZ = z(0) - zFromX(0);
+   if (diffZ > F_PI) { zFromX(0) += 2.f * F_PI; }
+   else if (diffZ < -F_PI) { zFromX(0) -= 2.f * F_PI; }
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+Run the result:
+
+```
+Simulation #1 (../config/10_MagUpdate.txt)
+Simulation #2 (../config/10_MagUpdate.txt)
+PASS: ABS(Quad.Est.E.Yaw) was less than 0.120000 for at least 10.000000 seconds
+PASS: ABS(Quad.Est.E.Yaw-0.000000) was less than Quad.Est.S.Yaw for 64% of the time
+```
+
+The chart illustrates the estimated standard deviation capturing the error and maintaining
+it in the bound (-0.1, 0.1).
+
+![10_MagUpdate](./images/10_MagUpdate.png)
