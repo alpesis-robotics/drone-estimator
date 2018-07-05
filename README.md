@@ -316,18 +316,20 @@ Where
 - X': the predicted state;
 - P': the predicted covariance;
 - K: the Kalman gain;
-- Z_t: the measurement of state;
+- Z_t: the measurement;
 - H: the Jacobian of observation function;
 - R: the measurement covariance;
 - C: the constant. 
 
 Regarding the project, the main update process is implemented in ``Predict()``, while the input
-procedure is the outputs of ``UpdateFromMag()`` that aims to solve the ``Z_t``, ``H``, ``R`` and
-``CX'``, in the function, ``z``, ``hPrime``, ``R_Mag`` and ``zFromX`` corespondingly. Here,
+procedure of Magnetometer is the outputs of ``UpdateFromMag()`` that aims to solve the ``Z_t``,
+``H``, ``R`` and ``CX'``, in the function, ``z``, ``hPrime``, ``R_Mag`` and ``zFromX`` corespondingly.
+
+Here, the values are as below:
 
 - ``z``: the magYaw;
 - ``R_Mag``: the magnetomer measurement covariance;
-- ``zFromX``: the normalized predicted yaw in ekfState;
+- ``zFromX``: the normalized predicted yaw in ekfState (ekfState(6));
 - ``hPrime``: 
 
 ![equation](http://latex.codecogs.com/gif.latex?h^{'}(x_t)=[0,0,0,0,0,0,1])
