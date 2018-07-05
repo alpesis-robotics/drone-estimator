@@ -225,7 +225,7 @@ Finishing the covariance of prediction.
 
 Where ``G`` is the Jacobian function calculated at step 2.
 
-## Implementation
+### Implementation
 
 Come back to the project, codes implemented in ``PredictState()``:
 
@@ -334,7 +334,7 @@ Here, the values are as below:
 
 ![equation](http://latex.codecogs.com/gif.latex?h^{'}(x_t)=[0,0,0,0,0,0,1])
 
-## Implementation
+### Implementation
 
 Fine tunning the parameter ``QYawStd`` in ``QuadEstimatorEKF.txt``, when the value is less than
 0.05, the white bound is too narrow; while larger than 0.05, it chases the trend of magnitude of
@@ -376,3 +376,74 @@ The chart illustrates the estimated standard deviation capturing the error and m
 it in the bound (-0.1, 0.1).
 
 ![10_MagUpdate](./images/10_MagUpdate.png)
+
+
+## Solution: Scenario 11_GPSUpdate
+
+The GPS update phase of EKF is as the same as the Magnetometer except the input values in
+``UpdateFromGPS()``. The coresponding values are as below:
+
+- ``z``: the input the position(x, y, z) and velocity(x, y, z);
+- ``R_GPS``: the GPS measurement covariance;
+- ``zFromX``: the predicted position(x, y, z) and velocity(x, y, z) in ekfState;
+- ``hPrime``:
+
+![equation](./images/gps_hprime.gif)
+
+### Implementation
+
+Choose the scenario 11_GPSUpdate, 
+
+![11_GPSUpdate_ideal](./images/11_GPSUpdate_ideal.png)
+
+Updating ``Quad.UseIdealEstimator`` in ``config/11_GPSUpdate.txt`` from 1 to 0 to switch the
+Estimator from ideal to realistic.
+
+```
+# Quad.UseIdealEstimator:
+# - 0: realistic
+# - 1: ideal
+Quad.UseIdealEstimator = 0
+```
+
+![11_GPSUpdate_realsitic](./images/11_GPSUpdate_realistic.png)
+
+Commented the IMU settings in ``config/11_GPSUpdate.txt``
+
+![11_GPSUpdate_realistic_imu](./images/11_GPSUpdate_realistic_imu.png)
+
+Tuning the parameter ```` in ````,
+
+![11_GPSUpdate_z_0.1](./images/11_GPSUpdate_z_0.1.png)
+
+Codes implemented in ``UpdateFromGPS()``:
+
+```
+   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+   hPrime(0, 0) = 1;
+   hPrime(1, 1) = 1;
+   hPrime(2, 2) = 1;
+   hPrime(3, 3) = 1;
+   hPrime(4, 4) = 1;
+   hPrime(5, 5) = 1;
+
+   zFromX(0) = ekfState(0);
+   zFromX(1) = ekfState(1);
+   zFromX(2) = ekfState(2);
+   zFromX(3) = ekfState(3);
+   zFromX(4) = ekfState(4);
+   zFromX(5) = ekfState(5);
+   /////////////////////////////// END STUDENT CODE ////////////////////////////
+```
+
+Run the result:
+
+```
+Simulation #1 (../config/11_GPSUpdate.txt)
+Simulation #2 (../config/11_GPSUpdate.txt)
+PASS: ABS(Quad.Est.E.Pos) was less than 1.000000 for at least 20.000000 seconds
+```
+
+The chart shows
+
+![11_GPSUpdate](./images/11_GPSUpdate.png)
