@@ -436,7 +436,7 @@ the position error is significantly increased up to 30-40.
 Tuning the parameter ``QPosZStd`` in ``config/QuadEstimatorEKF.txt``:
 
 ```
-QPosZStd = .05
+QPosZStd = .1
 ```
 
 If the standard deviation increases, the errors of the positions will increased corespondingly. The smaller
