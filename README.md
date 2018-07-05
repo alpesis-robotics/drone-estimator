@@ -303,7 +303,7 @@ predicted current covariance.
 
 The formulas represneted as listed:
 
-![equation](http://latex.codecogs.com/gif.latex?X_t=X^{'}+K(Z_t-CX^{'})
+![equation](http://latex.codecogs.com/gif.latex?X_t=X^{'}+K(Z_t-CX^{'}))
 
 ![equation](http://latex.codecogs.com/gif.latex?P_t=(I-KH)P^{'})
 
@@ -347,11 +347,6 @@ QYawStd = .07
 If QYawStd > 0.05 (e.g. 0.07), the drift is between the both white lines:
 
 ![10_MagUpdate_tuned.png](./images/10_MagUpdate_tuned.png)
-
-If QYawStd < 0.05 (e.g. 0.02), the drift could not be covered by the white bound.
-
-![10_MagUpdate_tuned_0.02.png](./images/10_MagUpdate_tuned_0.02.png)
-
 
 Codes implemented in ``UpdateFromMag()``:
 
