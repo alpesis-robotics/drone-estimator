@@ -38,6 +38,10 @@ Simulator Commands
           +---- README.rst
 ```
 
+## Kalam Filter Process
+
+![kalman_filter_process](./images/kalman_filter_process.png)
+
 ## Solution: Scenario 06_SensorNoise
 
 By calculating the standard deviation of ``Quad.GPS.X`` and ``Quad.IMU.AX`` data located at ``config/log/``,
