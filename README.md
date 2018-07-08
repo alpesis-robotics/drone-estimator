@@ -513,4 +513,4 @@ PASS: ABS(Quad.Est.E.Pos) was less than 1.000000 for at least 20.000000 seconds
 
 The chart is shown as
 
-![11_GPSUpdate_control](11_GPSUpdate_control.png)
+![11_GPSUpdate_control](./images/11_GPSUpdate_control.png)
