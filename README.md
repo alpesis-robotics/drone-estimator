@@ -489,7 +489,7 @@ de-tuned the parameters as
 ```
 # Position control gains
 kpPosXY = 3
-kpPosZ = 5
+kpPosZ = 4
 KiPosZ = 20
 
 # Velocity control gains
