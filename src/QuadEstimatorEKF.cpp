@@ -95,22 +95,24 @@ void QuadEstimatorEKF::UpdateFromIMU(V3F accel, V3F gyro)
 
   // ref: 1.4 Attitude kinematics and dynamics, Attitude Estimation Control of Autonomous Aerial Vehicles, P25
   // url: https://tel.archives-ouvertes.fr/tel-01201539/document
-  V3F angleDot;
-  angleDot.x = gyro.x + sin(rollEst) * tan(pitchEst) * gyro.y + cos(rollEst) * tan(pitchEst) * gyro.z;
-  angleDot.y = cos(rollEst) * gyro.y - sin(rollEst) * gyro.z;
-  angleDot.z = sin(rollEst) * gyro.y / cos(pitchEst) + cos(rollEst) * gyro.z / cos(pitchEst);
+  // V3F angleDot;
+  // angleDot.x = gyro.x + sin(rollEst) * tan(pitchEst) * gyro.y + cos(rollEst) * tan(pitchEst) * gyro.z;
+  // angleDot.y = cos(rollEst) * gyro.y - sin(rollEst) * gyro.z;
+  // angleDot.z = sin(rollEst) * gyro.y / cos(pitchEst) + cos(rollEst) * gyro.z / cos(pitchEst);
 
-  float predictedPitch = pitchEst + dtIMU * angleDot.y;
-  float predictedRoll = rollEst + dtIMU * angleDot.x;
-  ekfState(6) = ekfState(6) + dtIMU * angleDot.z;	// yaw
-  // float predictedPitch = pitchEst + dtIMU * gyro.y;
-  // float predictedRoll = rollEst + dtIMU * gyro.x;
-  // ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw
+  // float predictedPitch = pitchEst + dtIMU * angleDot.y;
+  // float predictedRoll = rollEst + dtIMU * angleDot.x;
+  // ekfState(6) = ekfState(6) + dtIMU * angleDot.z;	// yaw
 
   // normalize yaw to -pi .. pi
-  if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
-  if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
+  // if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
+  // if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
 
+  Quaternion<float> quat = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
+  quat.IntegrateBodyRate(gyro, dtIMU);
+  float predictedPitch = quat.Pitch();
+  float predictedRoll = quat.Roll();
+  ekfState(6) = quat.Yaw();
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
   // CALCULATE UPDATE
@@ -171,14 +173,22 @@ VectorXf QuadEstimatorEKF::PredictState(VectorXf curState, float dt, V3F accel, 
   Quaternion<float> attitude = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, curState(6));
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-  V3F curAccel = attitude.Rotate_BtoI(accel);
+  // V3F curAccel = attitude.Rotate_BtoI(accel);
+  // predictedState(0) = curState(0) + curState(3) * dt;
+  // predictedState(1) = curState(1) + curState(4) * dt;
+  // predictedState(2) = curState(2) + curState(5) * dt;
+  // predictedState(3) = curState(3) + curAccel.x * dt;
+  // predictedState(4) = curState(4) + curAccel.y * dt;
+  // predictedState(5) = curState(5) + curAccel.z * dt - CONST_GRAVITY * dt;
 
   predictedState(0) = curState(0) + curState(3) * dt;
   predictedState(1) = curState(1) + curState(4) * dt;
   predictedState(2) = curState(2) + curState(5) * dt;
-  predictedState(3) = curState(3) + curAccel.x * dt;
-  predictedState(4) = curState(4) + curAccel.y * dt;
-  predictedState(5) = curState(5) + curAccel.z * dt - CONST_GRAVITY * dt;
+
+  V3F accelG = attitude.Rotate_BtoI(accel) - V3F(0, 0, 9.81f);
+  predictedState(3) += accelG[0] * dt;
+  predictedState(4) += accelG[1] * dt;
+  predictedState(5) += accelG[2] * dt;
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
   return predictedState;
@@ -292,13 +302,8 @@ void QuadEstimatorEKF::UpdateFromGPS(V3F pos, V3F vel)
   //  - The GPS measurement covariance is available in member variable R_GPS
   //  - this is a very simple update
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-  hPrime(0, 0) = 1;
-  hPrime(1, 1) = 1;
-  hPrime(2, 2) = 1;
-  hPrime(3, 3) = 1;
-  hPrime(4, 4) = 1;
-  hPrime(5, 5) = 1;
-  
+  for (int i = 0; i < 6; i++) { hPrime(i, i) = 1; }
+
   zFromX(0) = ekfState(0);
   zFromX(1) = ekfState(1);
   zFromX(2) = ekfState(2);
