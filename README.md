@@ -480,3 +480,37 @@ With the update of the GPS measurement, the green box shows the result meets the
 the estimated position error is less than 1m for at least 20 seconds.
 
 ![11_GPSUpdate](./images/11_GPSUpdate.png)
+
+## Solution: Scenario 11_GPSUpdate (Control Integration)
+
+Copied the ``QuadController.cpp`` from last project, and update its parameters in ``config/QuadControlParams``,
+de-tuned the parameters as
+
+```
+# Position control gains
+kpPosXY = 3
+kpPosZ = 10
+KiPosZ = 20
+
+# Velocity control gains
+kpVelXY = 8
+kpVelZ = 8
+
+# Angle control gains
+kpBank = 12
+kpYaw = 4
+
+# Angle rate gains
+kpPQR = 70, 70, 20
+```
+
+Run the result:
+
+```
+Simulation #47 (../config/11_GPSUpdate.txt)
+PASS: ABS(Quad.Est.E.Pos) was less than 1.000000 for at least 20.000000 seconds
+```
+
+The chart is shown as
+
+![11_GPSUpdate_control](11_GPSUpdate_control.png)
