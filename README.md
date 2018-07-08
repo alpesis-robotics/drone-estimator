@@ -4,7 +4,7 @@ The simulator with control and estimation.
 
 ![demo](./images/demo.gif)
 
-Full demostration is [here](https://www.youtube.com/watch?v=vh0p2js43ZQ&feature=youtu.be).
+Full demostration is available [here](https://www.youtube.com/watch?v=vh0p2js43ZQ&feature=youtu.be).
 
 ## Getting Started
 
