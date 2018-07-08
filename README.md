@@ -489,19 +489,19 @@ de-tuned the parameters as
 ```
 # Position control gains
 kpPosXY = 3
-kpPosZ = 10
+kpPosZ = 5
 KiPosZ = 20
 
 # Velocity control gains
-kpVelXY = 8
-kpVelZ = 8
+kpVelXY = 10
+kpVelZ = 10
 
 # Angle control gains
 kpBank = 12
 kpYaw = 4
 
 # Angle rate gains
-kpPQR = 70, 70, 20
+kpPQR = 60, 60, 15
 ```
 
 Run the result:
